@@ -1,0 +1,53 @@
+/* we will explain what these classes do next! */
+.konect-button {
+  transition: box-shadow 1s ease;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter,
+.v-leave-to
+ {
+  opacity: 0;
+}
+
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: height 0.5s ease;
+  transition: width 0.5s ease;
+}
+
+.zoom-enter,
+.zoom-leave-to
+ {
+  width: 0px !important;
+  height: 0px !important;
+  overflow: hidden;
+}
+
+@for $i from 0 through 10 {
+    .opacity-#{$i}.v-enter,
+    .opacity-#{$i}.v-leave-top {
+        opacity:0;
+    }
+}
+
+@for $i from 0 through 100 {
+    .w-#{$i}.zoom-enter,
+    div div .w-#{$i}.zoom-enter,
+    .w-#{$i}.zoom-leave-to,
+    div div .w-#{$i}.zoom-leave-to,
+    .px-#{$i}px.zoom-enter, body div .px-#{$i}px.zoom-enter,
+    .px-#{$i}px.zoom-leave-to, body div .px-#{$i}px.zoom-leave-to,
+    .py-#{$i}px.zoom-enter, body div .py-#{$i}px.zoom-enter,
+    .py-#{$i}px.zoom-leave-to, body div .py-#{$i}px.zoom-leave-to
+    {
+        width: 0px !important;
+        height: 0px !important;
+        padding: 0px !important;
+        overflow: hidden;
+    }
+}

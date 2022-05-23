@@ -1,0 +1,129 @@
+@use "sass:math";
+@use "sass:map";
+@import "color";
+@import "calendar";
+@import "variables";
+@import "transition";
+@import "toggle-input";
+@import "input";
+@import "flex";
+@import "dimension";
+
+@each $cursor in $cursors {
+    .cursor-#{$cursor} {
+        cursor: $cursor;
+    }
+}
+
+@each $thickness in $thicknesses {
+    .font-weight-#{$thickness} {
+        font-weight: $thickness;
+    }
+}
+
+@each $value in $text-decorations {
+    .text-decoration-#{$value} {
+        text-decoration: $value;
+    }
+}
+
+@for $i from 0 through 60 {
+    .fs-#{$i}px, div div .fs-#{$i}px {
+            font-size:#{$i * 0.0625}rem !important;
+    }
+}
+@for $i from 0 through 150 {
+    .z-index-#{$i} {
+        z-index:#{$i};
+    }
+    .z-index-minus-#{$i} {
+        z-index:-#{$i};
+    }
+    @each $name, $size in $breakpoints {
+        @media (min-width: $size) {
+            .#{$name}-w-#{$i}, body div div .#{$name}-w-#{$i} {
+                width:#{$i + "%"}!important;
+            }
+        }
+    }
+}
+
+@for $i from 0 through 5 {
+    .b-#{$i} {
+        border-width:#{$i}px;
+        border-style:solid;
+    }
+    .bt-#{$i} {
+        border-top-width:#{$i}px;
+        border-top-style:solid;
+    }
+    .bb-#{$i} {
+        border-bottom-width:#{$i}px;
+        border-bottom-style:solid;
+    }
+    .br-#{$i} {
+        border-right-width:#{$i}px;
+        border-right-style:solid;
+    }
+    .bl-#{$i} {
+        border-left-width:#{$i}px;
+        border-left-style:solid;
+    }
+    @each $border in $borders {
+        .border-#{$border} {
+            border-style: $border !important;
+        }
+    }
+    .outline-#{$i} {
+        outline:#{$i}px;
+    }
+
+    .b-focus-visible-#{$i}:focus-visible {
+        border:#{$i}px;
+    }
+    .outline-focus-visible-#{$i}:focus-visible {
+        outline:#{$i}px;
+    }
+}
+
+@for $i from 0 through 10 {
+    .opacity-#{$i} {
+        opacity:#{math.div($i, 10)};
+    }
+}
+
+.h-auto {
+    height:auto;
+}
+
+.w-auto {
+    width:auto;
+}
+
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    background-color: #{map.get($theme-colors, "grey")} !important;
+}
+
+.overflow-y-scroll {
+    overflow-y: scroll;
+}
+
+.overflow-x-scroll {
+    overflow-x: scroll;
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden;
+}
+
+.overflow-x-hidden {
+    overflow-x: hidden;
+}

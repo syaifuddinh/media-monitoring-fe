@@ -1,0 +1,78 @@
+@use "sass:map";
+@import "variables";
+
+.calendar {
+    .fc-event-title-container {
+        cursor: pointer;
+    }
+    .fc-col-header-cell-cushion {
+        width: 40px;
+        padding:4px;
+    }
+    
+    .fc .fc-timegrid-slot {
+        height:54px;
+    }
+
+    a.fc-daygrid-day-number {
+        width:100%;
+        text-align:center;
+    }
+
+    div a.fc-h-event {
+        background-color: #{map.get($theme-colors, "success")};
+    }
+
+    div a.fc-h-event .fc-event-main {
+        color: #{map.get($theme-colors, "cherry")};
+    }
+
+    .fc-toolbar-title {
+        font-size:20px;
+        font-weight:700
+    }
+    
+    .fc-col-header-cell fc-scrollgrid-sync-inner {
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+
+    tbody {
+        .fc-day-other a {
+            color: #{map.get($theme-colors, "light-black")};
+        }
+        td a {
+            color: #{map.get($theme-colors, "black")};
+        }
+    }
+    .dark-theme {
+        .fc-toolbar-title, .fc-timegrid-slot-label-cushion {
+            color: white;
+        }
+        .fc-col-header-cell fc-scrollgrid-sync-inner {
+            background-color:#{map.get($theme-colors, "light-dark")};
+        }
+        .fc-col-header-cell {
+            .fc-col-header-cell-cushion {
+                font-weight: 400;
+                font-size:14px;
+                color: #{map.get($theme-colors, "light-grey")};
+            }
+        }
+
+        tbody {
+            .fc-day-other a {
+                color: #{map.get($theme-colors, "light-grey")};
+            }
+            td a {
+                color: #{map.get($theme-colors, "dark-grey")};
+            }
+        }
+
+        .fc-theme-standard td, .fc-theme-standard th {
+            border-right:1px solid white;
+        }
+    }
+
+
+}
