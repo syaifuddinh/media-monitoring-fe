@@ -29,6 +29,7 @@
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.21.2",
     "chart.js": "^3.7.1",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.19.3",
     "defu": "^5.0.1",

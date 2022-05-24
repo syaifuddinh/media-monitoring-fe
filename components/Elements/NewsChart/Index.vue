@@ -15,8 +15,9 @@
 <script>
 import { Bar } from 'vue-chartjs/legacy';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, LineController, PointElement } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, LineController, PointElement);
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, LineController, PointElement, ChartDataLabels);
 
 export default {
     name: 'BarChart',
@@ -43,10 +44,6 @@ export default {
           type: String
         },
         styles: {
-          type: Object,
-          default: () => {}
-        },
-        plugins: {
           type: Object,
           default: () => {}
         },
@@ -114,8 +111,21 @@ export default {
                 ]
             },
             chartOptions: {
-                responsive: true
-            }
+                responsive: true,
+                plugins: {
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: null,
+                        color: "#2E3A44",
+                        font: {
+                            weight: 'bold',
+                            size: 16
+                        }
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
         }
     }
 }
