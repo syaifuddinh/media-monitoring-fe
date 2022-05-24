@@ -79,8 +79,9 @@
                 defaultClass += "top-0 left-0 "
                 defaultClass += "px-16px "
                 defaultClass += "pb-16px "
-                defaultClass += "pt-48px "
+                defaultClass += "pt-60px "
                 defaultClass += "w-25 "
+                defaultClass += "min-w-250px "
                 defaultClass += "h-100 "
                 if(this.$store.state.Base.isUseDarkTheme === true) {
                     defaultClass += "bg-light-dark "

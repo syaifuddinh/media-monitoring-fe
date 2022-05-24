@@ -16,6 +16,9 @@
     .darken-bg-#{$name}, div div .darken-bg-#{$name} {
         background-color: #{color.adjust($value, $lightness: -10%)} !important;
     }
+    .darken-text-#{$name}, div div .darken-text-#{$name} {
+        color: #{color.adjust($value, $lightness: -10%)} !important;
+    }
     .very-darken-bg-#{$name}, div div .very-darken-bg-#{$name} {
         background-color: #{color.adjust($value, $lightness: -30%)} !important;
     }

@@ -196,8 +196,12 @@
                             return "IDR " + parseInt(this.value).toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
                         }
                     } else if(this.type === "date") {
-                        const dateLabel = moment(new Date(this.value)).format("MM/DD/YYYY");
-                        const readableDate = moment(new Date(this.value)).format("YYYY-MM-DD");
+                        let readableDate = "";
+                        let dateLabel = "";
+                        if(this.value) {
+                            dateLabel = moment(new Date(this.value)).format("MM/DD/YYYY");
+                            readableDate = moment(new Date(this.value)).format("YYYY-MM-DD");
+                        }
                         this.$emit('input', readableDate);
                         return dateLabel;
                     } else {
@@ -212,7 +216,10 @@
                         }
                         this.$emit('input', newValue)
                     } else if(this.type === "date") {
-                        const newValue = moment(modifiedValue).format("YYYY-MM-DD");
+                        let newValue = "";
+                        if(modifiedValue) {
+                            newValue = moment(modifiedValue).format("YYYY-MM-DD");
+                        }
                         this.$emit('input', newValue)
                     }
                 }

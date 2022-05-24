@@ -46,7 +46,7 @@
             },
             color: {
                 type: String,
-                default: ""
+                default: "black"
             },
             darkThemeColor: {
                 type: String,
@@ -133,11 +133,8 @@
                 if(isUseDarkTheme === true) {
                     classState += "text-" + this.darkThemeColor + " ";
                 } else if(isUseDarkTheme === false) {
-                    if(this.color) {
-                        classState += "text-" + this.color + " ";
-                    } else {
-                        classState += "text-black ";
-                    }
+                    classState += "text-" + this.color + " ";
+                    
                 }
                 
                 if(this.className) {

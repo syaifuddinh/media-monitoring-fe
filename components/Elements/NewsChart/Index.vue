@@ -49,28 +49,68 @@ export default {
         plugins: {
           type: Object,
           default: () => {}
+        },
+        interval: {
+            type: Array,
+            default: () => []
+        },
+        positif: {
+            type: Array,
+            default: () => []
+        },
+        negatif: {
+            type: Array,
+            default: () => []
+        },
+        netral: {
+            type: Array,
+            default: () => []
+        },
+        total: {
+            type: Array,
+            default: () => []
         }
     },
     data() {
+        const backgroundColor = this.positif.map(() => "#2E3A44");
+        const positifBorderColor = this.positif.map(() => "#5FC790");
+        const negatifBorderColor = this.positif.map(() => "#FF5630");
+        const netralBorderColor = this.positif.map(() => "#FFA600");
+        const totalBackgroundColor = this.positif.map(() => "#00CDB4");
         return {
             chartData: {
-                labels: [ '1 Agustus', '2 Agustus', '3 Agustus', '4 Agustus', '5 Agustus', '6 Agustus' ],
+                labels: this.interval,
                 datasets: [
-                    {
-                        label: "Total sentimen",
-                        type: "bar",
-                        data: [40, 20, 12, 28, 41, 51]
-                    },
                     {
                         label: "Positif",
                         type: "line",
-                        data: [21, 31, 45, 11, 21, 31]
+                        data: this.positif,
+                        backgroundColor,
+                        cubicInterpolationMode: 'monotone',
+                        borderColor: positifBorderColor
                     },
                     {
                         label: "Negatif",
                         type: "line",
-                        data: [11, 41, 25, 91, 31, 71]
-                    } 
+                        data: this.negatif,
+                        cubicInterpolationMode: 'monotone',
+                        backgroundColor,
+                        borderColor: negatifBorderColor
+                    }, 
+                    {
+                        label: "Netral",
+                        type: "line",
+                        data: this.netral,
+                        cubicInterpolationMode: 'monotone',
+                        backgroundColor,
+                        borderColor: netralBorderColor
+                    }, 
+                    {
+                        label: "Total sentimen",
+                        type: "bar",
+                        data: this.total,
+                        backgroundColor: totalBackgroundColor
+                    }
                 ]
             },
             chartOptions: {

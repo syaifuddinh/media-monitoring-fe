@@ -53,6 +53,10 @@
         min-width:#{$i}px;
     }
 
+    .max-w-#{$i}px, body div .max-w-#{$i}px, .form-control.max-w-#{$i}px {
+        max-width:#{$i}px;
+    }
+
     .m-#{$i}px {
             margin:#{$i}px;
     }
