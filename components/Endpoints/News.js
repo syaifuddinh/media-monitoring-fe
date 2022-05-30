@@ -1,12 +1,14 @@
 import moment from "moment";
 import Base from "./Base.js";
 
-const list = async ({keyword, startDate, endDate}) => {
+const list = async ({keyword, startDate, endDate, paging}) => {
     let response = {}; 
     let ajaxResponse;
     const params = {keyword, startDate, endDate};
     let ajax;
     const url = "news";
+    params.page = paging.page;
+    params.length = paging.length;
     try {
         ajax = await Base.axios().get(url, { params });
         ajaxResponse = ajax.data;

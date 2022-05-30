@@ -6,6 +6,16 @@ export default [
                 title: "dashboard",
                 icon: "home",
                 url: "/"
+            },
+            {
+                title: "berita",
+                icon: "newspaper",
+                url: "/news"
+            },
+            {
+                title: "analisa",
+                icon: "chart-bar",
+                url: "/analysis"
             }
         ]
     },
@@ -17,6 +27,11 @@ export default [
                 title: "Setting umum",
                 icon: "cog",
                 url: "/general-setting"
+            },
+            {
+                title: "Manajemen User",
+                icon: "user",
+                url: "/user-management"
             }
         ]
     }

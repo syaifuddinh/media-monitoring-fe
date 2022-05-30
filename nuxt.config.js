@@ -71,6 +71,7 @@ export default {
         'portal-vue/nuxt',
         '@nuxtjs/toast',
         '@nuxtjs/axios',
+        "vue2-editor/nuxt",
         'cookie-universal-nuxt'
     ],
 

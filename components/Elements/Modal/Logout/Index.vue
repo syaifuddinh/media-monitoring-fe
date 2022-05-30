@@ -20,7 +20,7 @@
                     align="center"
                     display="block"
                 >
-                    Apakah Kamu Yakin Akan Keluar ?
+                    Apakah anda ingin keluar?
                 </SemiLeadContentText>        
             </div>
         </template>

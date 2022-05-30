@@ -22,7 +22,6 @@
                 </div>
             </div>
             <TextInput
-                v-if="false"
                 label="Keyword"
                 type="text"
                 v-model="keyword"
@@ -32,13 +31,23 @@
         <PrimaryCard
             :margin-top="24"
         >
-            <NewsChart
-                :key="chartCounter"
-                :interval="chart.interval"
-                :positif="chart.positif"
-                :negatif="chart.negatif"
-                :netral="chart.netral"
-                :total="chart.total"
+            <div class="d-flex mb-16px">
+                <div class="flex-grow-1 d-none d-md-block"></div>
+                <Paging
+                    :key="totalData"
+                    :length="paging.length"
+                    :total-data="totalData"
+                    @change="onPagingChange"
+                />
+            </div>
+            <NewsCard
+                v-for="value in list"
+                :key="value.id"
+                :title="value.title"
+                :description="value.description"
+                :source="value.source"
+                :date="value.readablePublishedDate"
+                :variant="value.sentiment"
             />
         </PrimaryCard>
     </div>
@@ -47,15 +56,18 @@
 <script>
 
 import PrimaryCard from "@elements/Card/Primary/Index";
+import NewsCard from "@elements/Card/News/Index";
 import TextInput from "@elements/Input/Text/Index";
-import NewsChart from "@elements/NewsChart/Index";
+import Paging from "@elements/Paging/Index";
 import News from "@endpoints/News";
+import moment from "moment";
 
 export default {
     name: 'IndexPage',
     components: {
+        Paging,
+        NewsCard,
         TextInput,
-        NewsChart,
         PrimaryCard,
     },
     layout: 'PrimaryLayout',
@@ -64,21 +76,14 @@ export default {
             list: [],
             totalData: 0,
             paging: {
-                length: 6,
+                length: 10,
                 page: 1
-            },
-            chart: {
-                interval: [],
-                positif: [],
-                negatif: [],
-                netral: [],
-                total: []
             },
             chartCounter: 0,
             keywordTimeout: null,
             keyword: "",
-            startDate: this.$store.state.News.startDate,
-            endDate: this.$store.state.News.endDate
+            startDate: moment().subtract(7, "d").format("YYYY-MM-DD"),
+            endDate: moment().format("YYYY-MM-DD")
         }
     },
     mounted() {
@@ -93,18 +98,8 @@ export default {
             this.list = list;
             this.totalData = total;
         },
-        async setChart() {
-            const { keyword, startDate, endDate } = this;
-            const chart = await News.chart({ keyword, startDate, endDate });
-            chart.interval = chart.readableInterval;
-            this.chart = chart;
-            ++this.chartCounter;
-        },
         setData() {
-            this.$store.commit("News/setStartDate", this.startDate);
-            this.$store.commit("News/setEndDate", this.endDate);
             this.setList();
-            this.setChart();
         },
         onPagingChange(page) {
             this.paging.page = page;

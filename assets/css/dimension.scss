@@ -52,6 +52,9 @@
     .min-w-#{$i}px, body div .min-w-#{$i}px, .form-control.min-w-#{$i}px {
         min-width:#{$i}px;
     }
+    .min-h-#{$i}px, body div .min-h-#{$i}px, .form-control.min-h-#{$i}px {
+        min-height:#{$i}px;
+    }
 
     .max-w-#{$i}px, body div .max-w-#{$i}px, .form-control.max-w-#{$i}px {
         max-width:#{$i}px;

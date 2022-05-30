@@ -83,6 +83,9 @@
             data: {
                 get() {
                     return this.value;
+                },
+                set(modifiedValue) {
+                    this.$emit('input', modifiedValue);
                 }
             }
         },

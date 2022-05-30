@@ -1,7 +1,6 @@
 <template>
     <Modal
         @confirm="confirm"
-        @close="onClose"
         :height="332"
     >
         <template #trigger>
