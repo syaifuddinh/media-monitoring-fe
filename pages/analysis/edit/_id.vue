@@ -10,7 +10,7 @@
 <script>
 
 import Analysis from "@endpoints/Analysis";
-import Create from "../Create/Index"
+import Create from "../create/Index"
 
 export default {
     name: 'IndexPage',

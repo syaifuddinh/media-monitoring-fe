@@ -11,7 +11,7 @@
 <script>
 
 import User from "@endpoints/User";
-import Create from "../Create/Index"
+import Create from "../create/Index"
 
 export default {
     name: 'IndexPage',
