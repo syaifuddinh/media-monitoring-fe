@@ -43,16 +43,7 @@
         methods: {
             setLogo() {
                 let src = "";
-                if(!this.variant || this.variant === "primary") {
-                    if(this.$store.state.Base.isUseDarkTheme === true && this.isUseDarkTheme === true) {
-                        src = "logo-white-beta.svg"
-                    } else if(this.$store.state.Base.isUseDarkTheme === false || this.isUseDarkTheme === false) {
-                        src = "logo-primary-beta.svg"
-                    }
-                } else if(this.variant === "secondary") {
-                    src = "logo-white-beta.svg"
-
-                }
+                src = "logo.png"
                 this.src = src;
             }
         }

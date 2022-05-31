@@ -29,6 +29,7 @@
                     @change="onPagingChange"
                 />
             </div>
+            <NoData v-if="list.length === 0" />
             <UserCard
                 v-for="value in list"
                 :key="value.id"
@@ -50,12 +51,14 @@ import UserCard from "@elements/Card/User/Index";
 import TextInput from "@elements/Input/Text/Index";
 import Paging from "@elements/Paging/Index";
 import Button from "@elements/Button/Index";
+import NoData from "@elements/NoData/Index";
 import User from "@endpoints/User";
 import moment from "moment";
 
 export default {
     name: 'IndexPage',
     components: {
+        NoData,
         Button,
         Paging,
         UserCard,
@@ -86,9 +89,9 @@ export default {
         async setList() {
             const { keyword } = this;
             const paging = this.paging;
-            const { list, total } = await User.list({ keyword, paging });
+            const { list, count } = await User.list({ keyword, paging });
             this.list = list;
-            this.totalData = total;
+            this.totalData = count;
         },
         setData() {
             this.setList();

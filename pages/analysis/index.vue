@@ -49,11 +49,12 @@
                     @change="onPagingChange"
                 />
             </div>
+            <NoData v-if="list.length === 0" />
             <AnalysisCard
                 v-for="value in list"
                 :key="value.id"
                 :description="value.description"
-                :date="value.readablePublishedDate"
+                :date="value.readableDate"
                 :variant="value.sentiment"
                 @click="onListClicked(value.id)"
                 @edit="onEdit(value.id)"
@@ -70,12 +71,14 @@ import AnalysisCard from "@elements/Card/Analysis/Index";
 import TextInput from "@elements/Input/Text/Index";
 import Paging from "@elements/Paging/Index";
 import Button from "@elements/Button/Index";
+import NoData from "@elements/NoData/Index";
 import Analysis from "@endpoints/Analysis";
 import moment from "moment";
 
 export default {
     name: 'IndexPage',
     components: {
+        NoData,
         Button,
         Paging,
         AnalysisCard,
@@ -107,9 +110,9 @@ export default {
             try {
                 const { keyword, startDate, endDate } = this;
                 const paging = this.paging;
-                const { list, total } = await Analysis.list({ keyword, startDate, endDate, paging });
+                const { list, count } = await Analysis.list({ keyword, startDate, endDate, paging });
                 this.list = list;
-                this.totalData = total;
+                this.totalData = count;
             } catch {
 
             }

@@ -7,15 +7,17 @@ const list = async ({keyword, startDate, endDate, paging}) => {
     const params = {keyword, startDate, endDate};
     let ajax;
     const url = "analysis";
-    params.page = paging.page;
-    params.length = paging.length;
+    if(paging) {
+        params.page = paging.page;
+        params.length = paging.length;
+    }
     try {
         ajax = await Base.axios().get(url, { params });
         ajaxResponse = ajax.data;
         response = ajaxResponse.data; 
         response.list = response.list.map(value => {
             const response = value;
-            response.readablePublishedDate = moment(value.date).format("DD MMMM YYYY");
+            response.readableDate = moment(value.date).format("DD MMMM YYYY");
 
             return response;
         });

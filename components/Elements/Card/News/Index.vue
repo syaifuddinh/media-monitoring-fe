@@ -13,6 +13,33 @@
                 </SemiLeadContentText>
             </div>
             <div class="w-100 h-16px d-block d-md-none"></div>
+            <div class="col-md-4 col-xs-12 d-flex">
+                <div class="flex-grow-1 d-md-block d-none"></div>
+                <NormalText
+                    v-if="variant === 'positif'"
+                    key="positif"
+                    :weight="700"
+                    color="primary"
+                >
+                    POSITIF
+                </NormalText>
+                <NormalText
+                    v-if="variant === 'negatif'"
+                    key="negatif"
+                    :weight="700"
+                    color="danger"
+                >
+                    NEGATIF
+                </NormalText>
+                <NormalText
+                    v-if="variant === 'netral'"
+                    key="netral"
+                    :weight="700"
+                    color="dark-grey"
+                >
+                    NETRAL
+                </NormalText>
+            </div>
         </div>
         <SmallText
             display="block"

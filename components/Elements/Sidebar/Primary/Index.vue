@@ -1,6 +1,6 @@
 <template>
     <div :class="defaultClass + ' ' + className">
-        <div v-if="false" class="pb-24px">
+        <div class="pb-8px">
             <Logo width="125" height="auto" />
         </div>
         <div :key="counter">
@@ -79,7 +79,7 @@
                 defaultClass += "top-0 left-0 "
                 defaultClass += "px-16px "
                 defaultClass += "pb-16px "
-                defaultClass += "pt-60px "
+                defaultClass += "pt-16px "
                 defaultClass += "w-25 "
                 defaultClass += "min-w-250px "
                 defaultClass += "h-100 "

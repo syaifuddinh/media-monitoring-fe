@@ -1,10 +1,10 @@
 import moment from "moment";
 import Base from "./Base.js";
 
-const list = async ({keyword, startDate, endDate, paging}) => {
+const list = async ({keyword, startDate, endDate, sentiment, newsSource, paging}) => {
     let response = {}; 
     let ajaxResponse;
-    const params = {keyword, startDate, endDate};
+    const params = {keyword, startDate, endDate, sentiment, newsSource};
     let ajax;
     const url = "news";
     params.page = paging.page;
@@ -44,7 +44,25 @@ const chart = async ({keyword, startDate, endDate}) => {
     return response;
 }
 
+const sentimentSummary = async ({keyword, startDate, endDate}) => {
+    let response = {}; 
+    let ajaxResponse;
+    const params = {keyword, startDate, endDate};
+    let ajax;
+    const url = "news/chart/sentiment-summary";
+    try {
+        ajax = await Base.axios().get(url, { params });
+        ajaxResponse = ajax.data;
+        response = ajaxResponse.data.percentage;
+    } catch(e) {
+        throw new Error(e);
+    }
+
+    return response;
+}
+
 export default {
     chart,
+    sentimentSummary,
     list
 };

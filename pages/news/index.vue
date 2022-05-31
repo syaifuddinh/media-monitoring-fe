@@ -21,6 +21,20 @@
                     />
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <SentimentInput
+                        v-model="sentiment"
+                        @change="setData"
+                    />
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <NewsSourceInput
+                        v-model="newsSource"
+                        @change="setData"
+                    />
+                </div>
+            </div>
             <TextInput
                 label="Keyword"
                 type="text"
@@ -31,6 +45,7 @@
         <PrimaryCard
             :margin-top="24"
         >
+
             <div class="d-flex mb-16px">
                 <div class="flex-grow-1 d-none d-md-block"></div>
                 <Paging
@@ -40,6 +55,7 @@
                     @change="onPagingChange"
                 />
             </div>
+            <NoData v-if="list.length === 0" />
             <NewsCard
                 v-for="value in list"
                 :key="value.id"
@@ -58,16 +74,21 @@
 import PrimaryCard from "@elements/Card/Primary/Index";
 import NewsCard from "@elements/Card/News/Index";
 import TextInput from "@elements/Input/Text/Index";
+import SentimentInput from "@elements/Input/Sentiment/Index";
+import NewsSourceInput from "@elements/Input/NewsSource/Index";
 import Paging from "@elements/Paging/Index";
+import NoData from "@elements/NoData/Index";
 import News from "@endpoints/News";
-import moment from "moment";
 
 export default {
     name: 'IndexPage',
     components: {
         Paging,
+        NoData,
         NewsCard,
         TextInput,
+        SentimentInput,
+        NewsSourceInput,
         PrimaryCard,
     },
     layout: 'PrimaryLayout',
@@ -79,24 +100,25 @@ export default {
                 length: 10,
                 page: 1
             },
-            chartCounter: 0,
+            sentiment: this.$store.state.News.sentiment,
+            newsSource: "",
             keywordTimeout: null,
             keyword: "",
-            startDate: moment().subtract(7, "d").format("YYYY-MM-DD"),
-            endDate: moment().format("YYYY-MM-DD")
+            startDate: this.$store.state.News.startDate,
+            endDate: this.$store.state.News.endDate
         }
     },
     mounted() {
-        this.$store.commit("Base/setPageTitle", "Dashboard");
+        this.$store.commit("Base/setPageTitle", "Berita");
         this.setData();
     },
     methods: {
         async setList() {
-            const { keyword, startDate, endDate } = this;
+            const { keyword, startDate, endDate, newsSource, sentiment } = this;
             const paging = this.paging;
-            const { list, total } = await News.list({ keyword, startDate, endDate, paging });
+            const { list, count } = await News.list({ keyword, startDate, endDate, paging, newsSource, sentiment });
             this.list = list;
-            this.totalData = total;
+            this.totalData = count;
         },
         setData() {
             this.setList();

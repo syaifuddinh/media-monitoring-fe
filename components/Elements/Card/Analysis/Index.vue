@@ -22,7 +22,7 @@
                 <div ref="description"></div>
             </NormalText>
         </div>
-        <div class="row mt-16px">
+        <div v-if="isShowControl === true" class="row mt-16px">
             <div class="col-md-6 col-xs-12">
             </div>
             <div class="col-md-3 col-xs-12">
@@ -68,6 +68,10 @@
             title: {
                 type: String,
                 default: ""
+            },
+            isShowControl: {
+                type: Boolean,
+                default: true
             },
             description: {
                 type: String,
