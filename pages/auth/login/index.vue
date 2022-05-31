@@ -2,7 +2,13 @@
     <div class="py-40px px-24px bg-white position-fixed w-100 h-100 top-0 left-0">
         <div class="row">
             <div class="col-md-6 col-xs-12">
-                <LeadParagraphText>
+                <div class="d-flex justify-content-center">
+                    <Logo />
+                </div>
+                <LeadParagraphText
+                    display="block"
+                    class-name="mt-16px"
+                >
                     Masuk
                 </LeadParagraphText>
                 <TextInput
@@ -15,6 +21,7 @@
                     className="mt-29px"
                     placeholder="Kata sandi"
                     v-model="data.password"
+                    @keydown="onPasswordKeydown"
                 />
                 <NormalText className="mt-32px" display="block">
                     <CheckboxInput v-model="isRemember" />
@@ -51,11 +58,13 @@
     import CheckboxInput from "@elements/Input/Checkbox/Index"
     import NormalText from "@elements/Text/Normal/Index";
     import Button from "@elements/Button/Index";
+    import Logo from "@elements/Logo/Index";
     import ImageDisplay from "@elements/ImageDisplay/Index";
 
     export default {
         name: 'IndexPage',
         components: {
+            Logo,
             LeadParagraphText,
             TextInput,
             CheckboxInput,
@@ -88,6 +97,10 @@
                         "ok"
                     );
                 }
+            },
+            onPasswordKeydown({ keyCode }) {
+                if(keyCode === 13)
+                    this.onSubmitted();
             },
             async onSubmitted() {
                 this.isLoading = true;

@@ -8,6 +8,7 @@
         right-icon-variant="fontawesome"
         :margin-auto="true"
         @onRightIconClicked="switchPasswordVisibility"
+        @keydown="onKeydown"
         v-model="data"
     />
 </template>
@@ -63,6 +64,9 @@
         methods: {
             onChange(e) {
                 this.$emit("input", e.target.value);
+            },
+            onKeydown(e) {
+                this.$emit("keydown", e);
             },
             switchPasswordVisibility() {
                 this.isShow = !this.isShow;

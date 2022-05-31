@@ -10,7 +10,7 @@
                 :weight="600"
                 :margin-top="8"
                 class-name="darken-text-primary"
-                color=""
+                color="primary"
             >
                 {{ date }}            
             </SmallText>

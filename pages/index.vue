@@ -63,32 +63,45 @@
                 :netral="chart.netral"
                 :total="chart.total"
             />
-            <div class="mt-24px">
-                <AnalysisCard
-                    v-for="value in analysis"
-                    :key="value.id"
-                    :date="value.readableDate"
-                    :description="value.description"
-                    :is-show-control="false"
-                />
-            </div>
+        </PrimaryCard>
+        <PrimaryCard
+            :margin-top="24"
+        >
+            <LeadContentText
+                :weight="700"
+                display="block"
+                class-name="pl-24px mb-8px"
+            >
+                ANALISA :
+            </LeadContentText>
+            <AnalysisCard
+                v-for="value in analysis"
+                :key="value.id"
+                :description="value.description"
+                :is-show-control="false"
+            />
+            <NoData v-if="analysis.length === 0" />
         </PrimaryCard>
     </div>
 </template>
 
 <script>
 
+import NoData from "@elements/NoData/Index";
 import PrimaryCard from "@elements/Card/Primary/Index";
 import TextInput from "@elements/Input/Text/Index";
 import NewsChart from "@elements/NewsChart/Index";
 import SentimentCard from "@elements/Card/Sentiment/Index";
 import AnalysisCard from "@elements/Card/Analysis/Index";
+import LeadContentText from "@elements/Text/LeadContent/Index";
 import News from "@endpoints/News";
 import Analysis from "@endpoints/Analysis";
 
 export default {
     name: 'IndexPage',
     components: {
+        LeadContentText,
+        NoData,
         TextInput,
         SentimentCard,
         NewsChart,
