@@ -47,6 +47,7 @@ export default {
             this.keywordTimeout = setTimeout(async () => {
                 try {
                     await Setting.store("keyword", this.keyword);
+                    window.$nuxt.$toast.success("Keyword berhasil disimpan");
                 } catch {
 
                 }

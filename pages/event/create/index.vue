@@ -15,14 +15,16 @@
         <PrimaryCard
             class-name="mt-24px"
         >
-            <NormalText
-                :weight="600"
-                class-name="mb-16px"
-            >
-                Event
-            </NormalText>
             <div class="mt-16px">
                 <TextInput
+                    label="Tanggal"
+                    type="date"
+                    :margin-auto="true"
+                    v-model="date"
+                />
+                <TextInput
+                    label="Event"
+                    :margin-auto="true"
                     v-model="description"
                 />
             </div>
@@ -43,7 +45,6 @@
 <script>
 
 import PrimaryCard from "@elements/Card/Primary/Index";
-import NormalText from "@elements/Text/Normal/Index";
 import Icon from "@elements/Icon/Index";
 import Button from "@elements/Button/Index";
 import SectionText from "@elements/Text/Section/Index";
@@ -56,7 +57,6 @@ export default {
         TextInput,
         PrimaryCard,
         SectionText,
-        NormalText,
         Button,
         Icon
     },
@@ -78,12 +78,14 @@ export default {
     data() {
         return {
             isLoading: false,
+            date: "",
             description: ""
         }
     },
     mounted() {
         this.$store.commit("Base/setPageTitle", "");
         this.description = this.descriptionValue;
+        this.date = this.dateValue;
     },
     methods: {
         backward() {
@@ -91,14 +93,13 @@ export default {
         },
         async submit() {
             const description = this.description;
+            const date = this.date;
             this.isLoading = true;
             try {
                 if(this.id) {
-                    const date = this.dateValue;
                     await Event.update(date, description, this.id);
                 } 
                 else {
-                    const date = this.$store.state.News.endDate;
                     await Event.store(date, description);
                 }
                 this.backward();

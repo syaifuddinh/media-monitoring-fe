@@ -2,7 +2,7 @@
     <div>
         <div class="d-flex justify-content-center align-items-center mb-24px">
             <div class="d-flex align-items-center">
-                <div class="w-32px h-12px bg-dark-grey">
+                <div class="w-32px h-12px bg-primary">
                     
                 </div>
                 <SmallText
@@ -37,7 +37,7 @@
             </div>
 
             <div class="d-flex align-items-center ml-24px">
-                <div class="w-32px h-12px bg-primary">
+                <div class="w-32px h-12px bg-dark-grey">
                     
                 </div>
                 <SmallText
@@ -49,25 +49,52 @@
             </div>
         </div>
         
-        <Bar
-            :chart-options="chartOptions"
-            :chart-data="chartData"
-            :chart-id="chartId"
-            :dataset-id-key="datasetIdKey"
-            :plugins="plugins"
-            :css-classes="cssClasses"
-            :styles="styles"
-            :width="width"
-            :height="height"
-        />
+        <div class="position-relative pt-16px">
+            <div
+                v-if="false"
+                id="eventsContainer"
+                ref="events"
+                class="position-absolute p-16px bg-grey rounded-8px"
+                style="top:0;left:12px"
+            >
+                <NormalText
+                    display="block"
+                    :weight="600"
+                >
+                    Events
+                </NormalText>
+
+                <div class="mt-4px">
+                    <SmallText
+                        display="block"
+                        :margin-top="4"
+                    >
+                        Some Event
+                    </SmallText>
+                </div>
+            </div>
+            <Bar
+                :chart-options="chartOptions"
+                :chart-data="chartData"
+                :chart-id="chartId"
+                :dataset-id-key="datasetIdKey"
+                :plugins="plugins"
+                :css-classes="cssClasses"
+                :styles="styles"
+                :width="width"
+                :height="height"
+            />
+        </div>
     </div>
 </template>
 
 <script>
 import SmallText from '@elements/Text/Small/Index';
+import NormalText from '@elements/Text/Normal/Index';
 import { Bar } from 'vue-chartjs/legacy';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, LineController, PointElement } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import Event from "@endpoints/Event";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, LineController, PointElement, ChartDataLabels);
 
@@ -75,6 +102,7 @@ export default {
     name: 'BarChart',
     components: {
         Bar,
+        NormalText,
         SmallText
     },
     props: {
@@ -102,6 +130,10 @@ export default {
           type: Object,
           default: () => {}
         },
+        dateInterval: {
+            type: Array,
+            default: () => []
+        },
         interval: {
             type: Array,
             default: () => []
@@ -125,11 +157,13 @@ export default {
     },
     data() {
         const backgroundColor = this.positif.map(() => "#2E3A44");
-        const totalBackgroundColor = this.positif.map(() => "#00CDB4");
-        const positifBorderColor = this.positif.map(() => "#A0AABF");
+        const totalBackgroundColor = this.positif.map(() => "#A0AABF");
+        const positifBorderColor = this.positif.map(() => "#00CDB4");
         const negatifBorderColor = this.positif.map(() => "#FF5630");
         const netralBorderColor = this.positif.map(() => "#FFA600");
         return {
+            isShowEvents: false,
+            events: [],
             chartData: {
                 labels: this.interval,
                 datasets: [
@@ -168,6 +202,11 @@ export default {
             chartOptions: {
                 responsive: true,
                 plugins: {
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: this.showEvents
+                        }
+                    },
                     legend: {
                         display: false
                     },
@@ -185,6 +224,27 @@ export default {
                 }
             },
             plugins: [ChartDataLabels]
+        }
+    },
+    mounted() {
+        this.setEvents();
+    },
+    methods: {
+        async setEvents() {
+            const events = await Event.list({});
+            this.events = events.list;
+        },
+        hideEvents() {
+            this.isShowEvents = false;
+        },
+        showEvents(e) {
+            const date = this.dateInterval[e.dataIndex];
+            let content = "";
+            console.log(this.events);
+            const events = this.events.filter(value => value.date === date).map(value => value.description).join(", ");
+            if(events)
+                content = "Events : \n" + events;
+            return content;
         }
     }
 }

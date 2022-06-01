@@ -57,6 +57,7 @@
         >
             <NewsChart
                 :key="chartCounter"
+                :date-interval="chart.dateInterval"
                 :interval="chart.interval"
                 :positif="chart.positif"
                 :negatif="chart.negatif"
@@ -146,6 +147,7 @@ export default {
             try {
                 const { keyword, startDate, endDate } = this;
                 const chart = await News.chart({ keyword, startDate, endDate });
+                chart.dateInterval = chart.interval;
                 chart.interval = chart.readableInterval;
                 this.chart = chart;
                 ++this.chartCounter;
