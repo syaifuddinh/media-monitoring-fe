@@ -1,4 +1,6 @@
-export default function ({ app, $config, $cookies, store, route, $router }) {
+import User from "@endpoints/User";
+
+export default async function ({ app, $config, $cookies, store, route, $router }) {
     const cookies = app.$cookies;
     const response = true;
     let isAuthed = false;
@@ -10,6 +12,12 @@ export default function ({ app, $config, $cookies, store, route, $router }) {
     if(path.search("login") === -1) {
         if(!isAuthed) {
             app.router.push("/auth/login");
+        } else {
+            try {
+                const { userRole } = await User.show();
+                store.commit("User/setUserRole", userRole);
+            } catch {
+            }
         }
     } else if(path.search("login") > -1){
         if(isAuthed === true)

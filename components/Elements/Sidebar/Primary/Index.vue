@@ -61,14 +61,31 @@
             return {
                 counter: 0,
                 defaultClass: "",
-                menus: Menus,
+                menus: [],
                 image: ""
             }
         },
         mounted() {
             this.setDefaultClass();
         },
+        created() {
+            this.setMenus();
+        },
         methods: {
+            setMenus() {
+                let list = Menus;
+                if(this.$store.state.User.userRole === 'visitor') {
+                    list = list.filter(({ key }) => key !== "pengaturan");
+                    list = list.map(primaryValue => {
+                        const response = primaryValue
+                        if(response.key === "umum")
+                            response.items = response.items.filter(({ key }) => key !== "analisa");
+
+                        return response;
+                    });
+                }
+                this.menus = list;
+            },
             onMenuClick() {
                 ++this.counter;
             },

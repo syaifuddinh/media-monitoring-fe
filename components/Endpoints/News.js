@@ -61,7 +61,26 @@ const sentimentSummary = async ({keyword, startDate, endDate}) => {
     return response;
 }
 
+const show = async (id) => {
+    let response = {}; 
+    let ajaxResponse;
+    let ajax;
+    const url = "news/" + id;
+    try {
+        ajax = await Base.axios().get(url);
+        ajaxResponse = ajax.data;
+        response = ajaxResponse.data;
+        response.readableDate = moment(response.published_date).format("DD MMMM YYYY")
+        response.description = response.textcontent;
+    } catch(e) {
+        throw new Error(e);
+    }
+
+    return response;
+}
+
 export default {
+    show,
     chart,
     sentimentSummary,
     list

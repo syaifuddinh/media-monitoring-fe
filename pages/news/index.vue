@@ -64,6 +64,7 @@
                 :source="value.source"
                 :date="value.readablePublishedDate"
                 :variant="value.sentiment"
+                @click="onListClicked(value.id)"
             />
         </PrimaryCard>
     </div>
@@ -133,6 +134,9 @@ export default {
             this.keywordTimeout = setTimeout(() => {
                 this.setData();
             }, 1500);
+        },
+        onListClicked(id) {
+            this.$router.push({path: "/news/show/" + id});
         }
     }
 }

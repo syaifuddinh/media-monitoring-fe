@@ -70,7 +70,7 @@ export default {
     },
     data() {
         const backgroundColor = this.positif.map(() => "#2E3A44");
-        const positifBorderColor = this.positif.map(() => "#5FC790");
+        const positifBorderColor = this.positif.map(() => "#A0AABF");
         const negatifBorderColor = this.positif.map(() => "#FF5630");
         const netralBorderColor = this.positif.map(() => "#FFA600");
         const totalBackgroundColor = this.positif.map(() => "#00CDB4");

@@ -4,7 +4,7 @@
         :padding-y="8"
     >
         <div class="row">
-            <div class="col-md-8 col-xs-12">
+            <div class="col-md-8 col-xs-12 cursor-pointer" @click="onClick">
                 <SemiLeadContentText
                     display="block"
                     :weight="700"
@@ -115,6 +115,9 @@
         mounted() {
         },
         methods: {
+            onClick() {
+                this.$emit("click");
+            }
         }
     }
 </script>

@@ -107,6 +107,7 @@
                 try {
                     const response = await this.$axios.$post('/login', this.data);
                     const data = response.data;
+                    this.$store.commit("User/setUserRole", data.userRole);
                     const input = JSON.stringify(data);
                     localStorage.setItem("authApp", input);
                     this.setCookie();
@@ -114,8 +115,9 @@
                         this.$router.push("/")
                     }, 500);
                 } catch(e) {
-                    this.isLoading = false;
+                    this.$toast.error("Username atau password tidak ditemukan");
                 }
+                this.isLoading = false;
             }
         }
     }

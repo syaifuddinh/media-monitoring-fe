@@ -12,6 +12,11 @@ const config = () => {
     return nuxt().$config;
 }
 
+const primary = () => {
+    const response = nuxt().$axios; 
+    return response;
+}
+
 const axios = () => {
     const response = nuxt().$api; 
     return response;
@@ -24,6 +29,7 @@ const second = () => {
 
 export default {
     nuxt,
+    primary,
     config,
     second,
     axios

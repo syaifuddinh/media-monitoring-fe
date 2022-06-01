@@ -1,3 +1,4 @@
+import User from '@models/User';
 import Base from "./Base.js";
 
 const uploadPhoto = async (file) => {
@@ -22,26 +23,17 @@ const uploadPhoto = async (file) => {
 const show = async () => {
     let response = {}; 
     let ajaxResponse;
-    const request= {};
     let ajax;
-    const url = "auth/me";
+    const url = "check-user";
+    const token = User.getToken();
+    const config = {
+        headers: { Authorization: "Bearer " + token }
+    }
     try {
-        ajax = await Base.axios().get(url, request);
+        ajax = await Base.primary().get(url, config);
         ajax = ajax.data;
         ajaxResponse = ajax.data; 
         response = ajaxResponse;
-        response.timezone = response.tz ? response.tz : "Asia/Jakarta";
-        response.countryId = response.country ? response.country.id : null;
-        response.imageUrl = "";
-        if(response.images) {
-            if(response.images.image_path) {
-                response.imageUrl = response.images.image_path;
-            }
-        }
-        response.interests = [];
-        if(response.networks.length > 0) {
-            response.interests = response.networks.map(({ id }) => id);
-        }
     } catch(e) {
         throw new Error(e)
     }
