@@ -79,7 +79,7 @@
                     list = list.map(primaryValue => {
                         const response = primaryValue
                         if(response.key === "umum")
-                            response.items = response.items.filter(({ key }) => key !== "analisa");
+                            response.items = response.items.filter(({ key }) => key !== "analisa" && key !== "event");
 
                         return response;
                     });

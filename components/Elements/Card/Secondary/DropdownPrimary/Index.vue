@@ -26,7 +26,6 @@
 </template>
 
 <script>
-    import SharingLinkModal from "@elements/Modal/SharingLink/Index";
     import DuplicateEventModal from "@elements/Modal/DuplicateEvent/Index";
     import Dropdown from "@elements/Dropdown/Index";
     import DropdownItem from "@elements/Dropdown/Item/Index";
@@ -35,7 +34,6 @@
     export default {
         name: 'IndexPage',
         components: {
-            SharingLinkModal,
             DuplicateEventModal,
             Dropdown,
             DropdownItem

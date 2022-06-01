@@ -2,15 +2,13 @@
     <Modal
         @confirm="onConfirm"
         @open="onOpen"
-        title="Deskripsi Event"
+        title="Edit Sentimen"
         :width="50"
-        :height="510"
-        confirm-button-label="Simpan"
-        confirm-button-variant="primary"
+        :height="168"
         :is-show-cancel-button="false"
+        :is-show-confirm-button="false"
         :is-show-times-icon="true"
-        :is-confirm-button-disabled="!description"
-        :is-confirm-button-loading="isConfirmButtonLoading"
+        align="start"
     >
         <template #trigger>
             <div ref="eventForm">
@@ -18,13 +16,10 @@
             </div>
         </template>
         <template #main>
-            <div>
-                <TextareaInput
-                    label="Deskripsi"
-                    placeholder="Deskripsi"
-                    :margin-auto="true"
-                    :height="300"
-                    v-model="description"
+            <div class="pt-16px">
+                <SentimentInput
+                    v-model="sentiment"
+                    @change="onConfirm"
                 />
             </div>
         </template>
@@ -33,16 +28,24 @@
 
 <script>
     import Modal from "@elements/Modal/Index";
-    import TextareaInput from "@elements/Input/Textarea/Index";
-    import Event from "@endpoints/Event";
+    import SentimentInput from "@elements/Input/Sentiment/Index";
+    import Sentiment from "@endpoints/News/Sentiment";
 
     export default {
         name: 'IndexPage',
         components: {
-            TextareaInput,
+            SentimentInput,
             Modal
         },
         props: {
+            sentimentValue: {
+                type: String,
+                default: ""
+            },
+            newsId: {
+                type: String,
+                default: ""
+            },
             isShowCancelButton: {
                 type: Boolean,
                 default: true
@@ -68,16 +71,6 @@
             this.setClassState();
         },
         methods: {
-            openComputer() {
-                this.isComputerActive = true;
-                this.isLinkActive = false;
-                this.counter += 1;
-            },
-            openLink() {
-                this.isComputerActive = false;
-                this.isLinkActive = true;
-                this.counter += 1;
-            },
             onModalLoad(close) {
                 this.closeModal = close;
             },
@@ -94,14 +87,12 @@
                 this.$emit("close");
             },
             onOpen() {
-                this.description = this.$store.state.Event.visited.description;
+                this.sentiment = this.sentimentValue;
             },
             async onConfirm(closeModal) {
                 this.isConfirmButtonLoading = true;
                 try {
-                    await Event.updateDescription(this.description)
-                    await Event.show(this.$store.state.Event.visited.id);
-                    closeModal();
+                    await Sentiment.update(this.newsId, this.sentiment);
                     this.$emit("confirm")
                 } catch {
 

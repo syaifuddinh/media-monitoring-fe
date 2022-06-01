@@ -20,6 +20,12 @@ export default [
                 key: "analisa",
                 icon: "chart-bar",
                 url: "/analysis"
+            },
+            {
+                title: "event",
+                key: "event",
+                icon: "chart-line",
+                url: "/event"
             }
         ]
     },

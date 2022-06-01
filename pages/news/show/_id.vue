@@ -15,6 +15,20 @@
         <PrimaryCard
             class-name="mt-24px"
         >
+            <div v-if="$store.state.User.userRole === 'admin'" class="row mb-24px">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <EditSentimentModal
+                        :sentiment-value="sentiment"
+                        :news-id="id"
+                        @confirm="setData"
+                    >
+                        <Button
+                            label="Edit Sentimen"
+                            :width="200"
+                        />
+                    </EditSentimentModal>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-8 col-xs-12">
                     <SemiLeadContentText
@@ -127,13 +141,17 @@ import SmallText from "@elements/Text/Small/Index";
 import SemiLeadContentText from "@elements/Text/SemiLeadContent/Index";
 import LeadParagraphText from "@elements/Text/LeadParagraph/Index";
 import Icon from "@elements/Icon/Index";
+import Button from "@elements/Button/Index";
 import LineRuler from "@elements/LineRuler/Index";
 import SectionText from "@elements/Text/Section/Index";
+import EditSentimentModal from "@elements/Modal/EditSentiment/Index";
 import News from "@endpoints/News";
 
 export default {
     name: 'IndexPage',
     components: {
+        EditSentimentModal,
+        Button,
         SmallText,
         LeadParagraphText,
         LineRuler,
@@ -147,6 +165,7 @@ export default {
     layout: 'PrimaryLayout',
     data() {
         return {
+            id: "",
             date: "",
             description: "",
             sentiment: "",
@@ -168,6 +187,7 @@ export default {
         async setData() {
             try {
                 const id = this.$route.params.id;
+                this.id = id;
                 const { title, sentiment, readableDate, description, source, url, sentimenPositif, sentimenNegatif, sentimenNetral } = await News.show(id);
                 this.date = readableDate;
                 this.title = title;
