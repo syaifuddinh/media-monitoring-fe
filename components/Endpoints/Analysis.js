@@ -1,10 +1,10 @@
 import moment from "moment";
 import Base from "./Base.js";
 
-const list = async ({keyword, startDate, endDate, paging}) => {
+const list = async ({keyword, startDate, endDate, paging, date}) => {
     let response = {}; 
     let ajaxResponse;
-    const params = {keyword, startDate, endDate};
+    const params = {keyword, startDate, endDate, date};
     let ajax;
     const url = "analysis";
     if(paging) {

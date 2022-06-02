@@ -74,6 +74,7 @@
                 </div>
             </div>
             <Bar
+                ref="chartElement"
                 :chart-options="chartOptions"
                 :chart-data="chartData"
                 :chart-id="chartId"
@@ -228,6 +229,11 @@ export default {
     },
     mounted() {
         this.setEvents();
+        setTimeout(() => {
+            const chart = this.$refs.chartElement.getCurrentChart();
+            const chartImage = chart.toBase64Image('image/png', 1)
+            this.$emit("load", chartImage);
+        }, 500);
     },
     methods: {
         async setEvents() {
@@ -240,7 +246,7 @@ export default {
         showEvents(e) {
             const date = this.dateInterval[e.dataIndex];
             let content = "";
-            console.log(this.events);
+            // console.log(this.events);
             const events = this.events.filter(value => value.date === date).map(value => value.description).join(", ");
             if(events)
                 content = "Events : \n" + events;

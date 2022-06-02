@@ -55,34 +55,47 @@
         <PrimaryCard
             :margin-top="24"
         >
-            <NewsChart
-                :key="chartCounter"
-                :date-interval="chart.dateInterval"
-                :interval="chart.interval"
-                :positif="chart.positif"
-                :negatif="chart.negatif"
-                :netral="chart.netral"
-                :total="chart.total"
-            />
+            <div class="d-flex justify-content-end mb-24px">
+                <Button
+                    label="Download PDF"
+                    :width="200"
+                    :is-loading="isLoading"
+                    @click="downloadPDF"
+                />
+            </div>
+            <div ref="newschart">
+                <NewsChart
+                    :key="chartCounter"
+                    :date-interval="chart.dateInterval"
+                    :interval="chart.interval"
+                    :positif="chart.positif"
+                    :negatif="chart.negatif"
+                    :netral="chart.netral"
+                    :total="chart.total"
+                    @load="setChartImage"
+                />
+            </div>
         </PrimaryCard>
-        <PrimaryCard
-            :margin-top="24"
-        >
-            <LeadContentText
-                :weight="700"
-                display="block"
-                class-name="pl-24px mb-8px"
+        <div ref="analysis">
+            <PrimaryCard
+                :margin-top="24"
             >
-                ANALISA :
-            </LeadContentText>
-            <AnalysisCard
-                v-for="value in analysis"
-                :key="value.id"
-                :description="value.description"
-                :is-show-control="false"
-            />
-            <NoData v-if="analysis.length === 0" />
-        </PrimaryCard>
+                <LeadContentText
+                    :weight="700"
+                    display="block"
+                    class-name="pl-24px mb-8px"
+                >
+                    ANALISA :
+                </LeadContentText>
+                <AnalysisCard
+                    v-for="value in analysis"
+                    :key="value.id"
+                    :description="value.description"
+                    :is-show-control="false"
+                />
+                <NoData v-if="analysis.length === 0" />
+            </PrimaryCard>
+        </div>
     </div>
 </template>
 
@@ -95,14 +108,17 @@ import NewsChart from "@elements/NewsChart/Index";
 import SentimentCard from "@elements/Card/Sentiment/Index";
 import AnalysisCard from "@elements/Card/Analysis/Index";
 import LeadContentText from "@elements/Text/LeadContent/Index";
+import Button from "@elements/Button/Index";
 import News from "@endpoints/News";
 import Analysis from "@endpoints/Analysis";
+import JsPDF from 'jspdf' 
 
 export default {
     name: 'IndexPage',
     components: {
         LeadContentText,
         NoData,
+        Button,
         TextInput,
         SentimentCard,
         NewsChart,
@@ -112,6 +128,8 @@ export default {
     layout: 'PrimaryLayout',
     data() {
         return {
+            chartImage: "",
+            isLoading: false,
             list: [],
             analysis: [],
             totalData: 0,
@@ -143,6 +161,54 @@ export default {
         this.setData();
     },
     methods: {
+        setChartImage(image) {
+            this.chartImage = image;
+        },
+        downloadPDF() {
+            this.isLoading = true;
+            const doc = new JsPDF();
+            // let startText = 112;
+            const el = document.createElement("div");
+            const pageWidth = "600px";
+            el.style.fontSize = "4px";
+            el.style.width = pageWidth;
+            el.style.padding = "8px";
+            const legendEl = document.createElement("div");
+            legendEl.style.width = "600px";
+            legendEl.style.height = "20px";
+            legendEl.innerHTML += "<div style='display:inline-block;'><div style='background:#00CDB4;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Positif</div></div>"
+            legendEl.innerHTML += "<div style='display:inline-block;margin-left:8px'><div style='background:#FF5630;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Negatif</div></div>"
+            legendEl.innerHTML += "<div style='display:inline-block;margin-left:8px'><div style='background:#FFA600;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Netral</div></div>"
+            legendEl.innerHTML += "<div style='display:inline-block;margin-left:8px'><div style='background:#A0AABF;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Total Sentimen</div></div>"
+            el.append(legendEl)
+            el.innerHTML += "<img src='" + this.chartImage + "' width='190' height='85' />"
+            const analysisEl = document.createElement("div");
+            const title = "<div style='font-size:10px;font-weight:500'>Analisa</div>";
+            analysisEl.style.width = pageWidth;
+            analysisEl.style.marginTop = "4px";
+            analysisEl.innerHTML = title;
+            this.analysis.forEach(({ description }) => {
+                analysisEl.innerHTML += "<div>" + description + "</div>";
+            });
+            analysisEl.querySelectorAll("p").forEach(value => {
+                value.style.fontSize="4px";
+                value.style.margin="0px";
+                value.style.padding="0px";
+                value.style.marginTop="2px";
+                value.style.marginBottom="2px";
+            });
+            el.append(analysisEl);
+            doc.html(el, {
+                callback(e) {
+                    e.save("doc.pdf")
+                    this.isLoading = false;
+                }
+            });
+            this.isLoading = false;
+            // this.analysis.forEach(value => {
+            //     startText += 8;
+            // });
+        },
         async setChart() {
             try {
                 const { keyword, startDate, endDate } = this;
@@ -157,8 +223,8 @@ export default {
         },
         async setAnalysis() {
             try {
-                const { startDate, endDate } = this;
-                const { list } = await Analysis.list({ startDate, endDate });
+                const date = this.endDate
+                const { list } = await Analysis.list({ date });
                 this.analysis = list;
             } catch(e)  {
                 throw new Error(e);
