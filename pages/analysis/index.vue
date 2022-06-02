@@ -31,16 +31,34 @@
         <PrimaryCard
             :margin-top="24"
         >
-            <div class="d-flex mb-16px">
-                <div class="flex-grow-1 d-none d-md-block"></div>
-                <Button
-                    label="Tambah"
-                    variant="primary"
-                    :width="150"
-                    @click="add"
-                />
+            <div class="row">
+                <div class="col-md-3 col-xs-12"></div>
+                <div class="col-md-3 col-xs-12">
+                    <Button
+                        label="Download Excel"
+                        variant="success"
+                        :width="200"
+                        @click="downloadExcel"
+                    />
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <Button
+                        label="Download PDF"
+                        variant="cherry"
+                        :width="200"
+                        @click="downloadPdf"
+                    />                    
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <Button
+                        label="Tambah"
+                        variant="primary"
+                        @click="add"
+                    />
+                </div>
             </div>
-            <div class="d-flex mb-16px">
+
+            <div class="d-flex my-16px">
                 <div class="flex-grow-1 d-none d-md-block"></div>
                 <Paging
                     :key="totalData"
@@ -127,6 +145,14 @@ export default {
         },
         setData() {
             this.setList();
+        },
+        downloadExcel() {
+            const { startDate, endDate } = this;
+            Analysis.downloadExcel({ startDate, endDate });
+        },
+        downloadPdf() {
+            const { startDate, endDate } = this;
+            Analysis.downloadPdf({ startDate, endDate });
         },
         add() {
             this.$router.push({path: "/analysis/create"});

@@ -26,6 +26,20 @@ const list = async ({keyword, startDate, endDate, sentiment, newsSource, paging}
     return response;
 }
 
+const downloadExcel = ({ startDate, endDate, sentiment, newsSource }) => {
+    const params = { startDate, endDate, sentiment, newsSource };
+    const queryString = new URLSearchParams(params).toString();
+    const url = window.$nuxt.$config.baseUrl + "/news/excel?" + queryString;
+    window.open(url, "_blank");
+}
+
+const downloadPdf = ({ startDate, endDate, sentiment, newsSource }) => {
+    const params = { startDate, endDate, sentiment, newsSource };
+    const queryString = new URLSearchParams(params).toString();
+    const url = window.$nuxt.$config.baseUrl + "/news/pdf?" + queryString;
+    window.open(url, "_blank");
+}
+
 const chart = async ({keyword, startDate, endDate}) => {
     let response = {}; 
     let ajaxResponse;
@@ -83,5 +97,7 @@ export default {
     show,
     chart,
     sentimentSummary,
+    downloadPdf,
+    downloadExcel,
     list
 };

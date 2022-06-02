@@ -161,11 +161,21 @@
                 } else if(!this.variant || this.variant === "primary") {
                     classState += "text-white ";
                     classState += "bg-primary ";
-                    classState += "hover-box-shadow-primary ";
+                    classState += "hover-bg-primary ";
                 } else if(this.variant === "danger") {
                     classState += "text-white ";
                     classState += "bg-danger ";
                     classState += "hover-bg-danger ";
+                    this.iconColor = "white";
+                } else if(this.variant === "cherry") {
+                    classState += "text-white ";
+                    classState += "bg-cherry ";
+                    classState += "hover-bg-cherry ";
+                    this.iconColor = "white";
+                } else if(this.variant === "success") {
+                    classState += "text-white ";
+                    classState += "bg-success ";
+                    classState += "hover-bg-success ";
                     this.iconColor = "white";
                 } else if(this.variant === "dark") {
                     classState += "text-white ";

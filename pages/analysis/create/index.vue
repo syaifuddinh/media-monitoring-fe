@@ -15,6 +15,12 @@
         <PrimaryCard
             class-name="mt-24px"
         >
+            <TextInput
+                label="Tanggal"
+                type="date"
+                :margin-auto="true"
+                v-model="date"
+            />
             <NormalText
                 :weight="600"
                 class-name="mb-16px"
@@ -48,6 +54,7 @@ import NormalText from "@elements/Text/Normal/Index";
 import Icon from "@elements/Icon/Index";
 import Button from "@elements/Button/Index";
 import SectionText from "@elements/Text/Section/Index";
+import TextInput from "@elements/Input/Text/Index";
 import Analysis from "@endpoints/Analysis";
 import { VueEditor } from "vue2-editor";
 
@@ -55,6 +62,7 @@ export default {
     name: 'IndexPage',
     components: {
         VueEditor,
+        TextInput,
         PrimaryCard,
         SectionText,
         NormalText,
@@ -79,12 +87,14 @@ export default {
     data() {
         return {
             isLoading: false,
+            date: "",
             description: ""
         }
     },
     mounted() {
         this.$store.commit("Base/setPageTitle", "");
         this.description = this.descriptionValue;
+        this.date = this.dateValue;
     },
     methods: {
         backward() {
@@ -92,14 +102,13 @@ export default {
         },
         async submit() {
             const description = this.description;
+            const date = this.date;
             this.isLoading = true;
             try {
                 if(this.id) {
-                    const date = this.dateValue;
                     await Analysis.update(date, description, this.id);
                 } 
                 else {
-                    const date = this.$store.state.News.endDate;
                     await Analysis.store(date, description);
                 }
                 this.backward();

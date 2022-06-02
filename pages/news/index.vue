@@ -46,7 +46,26 @@
             :margin-top="24"
         >
 
-            <div class="d-flex mb-16px">
+            <div class="row">
+                <div class="col-md-6 col-xs-12"></div>
+                <div class="col-md-3 col-xs-12">
+                    <Button
+                        label="Download Excel"
+                        variant="success"
+                        :width="200"
+                        @click="downloadExcel"
+                    />
+                </div>
+                <div class="col-md-3 col-xs-12">
+                    <Button
+                        label="Download PDF"
+                        variant="primary"
+                        :width="200"
+                        @click="downloadPdf"
+                    />                    
+                </div>
+            </div>
+            <div class="d-flex my-16px">
                 <div class="flex-grow-1 d-none d-md-block"></div>
                 <Paging
                     :key="totalData"
@@ -78,6 +97,7 @@ import TextInput from "@elements/Input/Text/Index";
 import SentimentInput from "@elements/Input/Sentiment/Index";
 import NewsSourceInput from "@elements/Input/NewsSource/Index";
 import Paging from "@elements/Paging/Index";
+import Button from "@elements/Button/Index";
 import NoData from "@elements/NoData/Index";
 import News from "@endpoints/News";
 
@@ -85,6 +105,7 @@ export default {
     name: 'IndexPage',
     components: {
         Paging,
+        Button,
         NoData,
         NewsCard,
         TextInput,
@@ -123,6 +144,14 @@ export default {
         },
         setData() {
             this.setList();
+        },
+        downloadExcel() {
+            const { startDate, endDate, newsSource, sentiment } = this;
+            News.downloadExcel({ startDate, endDate, newsSource, sentiment });
+        },
+        downloadPdf() {
+            const { startDate, endDate, newsSource, sentiment } = this;
+            News.downloadPdf({ startDate, endDate, newsSource, sentiment });
         },
         onPagingChange(page) {
             this.paging.page = page;

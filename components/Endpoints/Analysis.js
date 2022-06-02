@@ -98,10 +98,26 @@ const destroy = async (id) => {
     return response;
 }
 
+const downloadExcel = ({ startDate, endDate, sentiment, newsSource }) => {
+    const params = { startDate, endDate, sentiment, newsSource };
+    const queryString = new URLSearchParams(params).toString();
+    const url = window.$nuxt.$config.baseUrl + "/analysis/excel?" + queryString;
+    window.open(url, "_blank");
+}
+
+const downloadPdf = ({ startDate, endDate, sentiment, newsSource }) => {
+    const params = { startDate, endDate, sentiment, newsSource };
+    const queryString = new URLSearchParams(params).toString();
+    const url = window.$nuxt.$config.baseUrl + "/analysis/pdf?" + queryString;
+    window.open(url, "_blank");
+}
+
 export default {
     show,
     update,
     destroy,
     store,
+    downloadPdf,
+    downloadExcel,
     list
 };

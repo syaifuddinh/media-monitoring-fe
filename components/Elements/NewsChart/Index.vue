@@ -230,9 +230,12 @@ export default {
     mounted() {
         this.setEvents();
         setTimeout(() => {
-            const chart = this.$refs.chartElement.getCurrentChart();
-            const chartImage = chart.toBase64Image('image/png', 1)
-            this.$emit("load", chartImage);
+            if(this.$refs.chartElement) {
+                const chart = this.$refs.chartElement.getCurrentChart();
+                const chartImage = chart.toBase64Image('image/png', 1)
+                console.log(chart)
+                this.$emit("load", chartImage);
+            }
         }, 500);
     },
     methods: {
