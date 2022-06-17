@@ -19,7 +19,10 @@
                 :weight="500"
                 :margin-top="8"
             >
-                <div ref="description"></div>
+                <div
+                    ref="description"
+                    style="word-wrap: break-word"
+                ></div>
             </NormalText>
         </div>
         <div v-if="isShowControl === true" class="row mt-16px">

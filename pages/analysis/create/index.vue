@@ -35,7 +35,7 @@
             </div>
             <div class="mt-16px">
                 <Button
-                    :label="id ? 'Edit' : 'Simpan'"
+                    :label="id ? 'Update' : 'Simpan'"
                     variant="primary"
                     :width="150"
                     :disabled="!description"

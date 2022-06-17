@@ -195,9 +195,12 @@ export default {
                 const title = "<div style='font-size:10px;font-weight:500'>Analisa</div>";
                 analysisEl.style.width = pageWidth;
                 analysisEl.style.marginTop = "4px";
+                // analysisEl.style.wordWrap = "break-word";
+                analysisEl.style.maxWidth = "192px";
+                // analysisEl.style.wordBreak = "break-all";
                 analysisEl.innerHTML = title;
                 this.analysis.forEach(({ description }) => {
-                    analysisEl.innerHTML += "<div>" + description + "</div>";
+                    analysisEl.innerHTML += "<div style='word-break:break-all'>" + description + "</div>";
                 });
                 analysisEl.querySelectorAll("p").forEach(value => {
                     value.style.fontSize="4px";
