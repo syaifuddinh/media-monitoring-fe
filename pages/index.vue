@@ -212,12 +212,14 @@ export default {
                     value.style.marginBottom="2px";
                 });
                 el.append(analysisEl);
-                htmltopdf(el).set({
+                htmltopdf(el, {
+                    margin: 8,
+                    filename: "Analisa.pdf",
                     pagebreak: { 
                         mode: ['avoid-all'],
                         before: '#page2el'
                     }
-                });;
+                });
                 this.isLoading = false;
             }, 500);
             // this.analysis.forEach(value => {
