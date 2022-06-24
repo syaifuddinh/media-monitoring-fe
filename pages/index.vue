@@ -111,8 +111,8 @@ import LeadContentText from "@elements/Text/LeadContent/Index";
 import Button from "@elements/Button/Index";
 import News from "@endpoints/News";
 import Analysis from "@endpoints/Analysis";
-import JsPDF from 'jspdf' 
 import moment from "moment";
+import htmltopdf from "html2pdf.js";
 
 export default {
     name: 'IndexPage',
@@ -168,54 +168,56 @@ export default {
         downloadPDF() {
             this.isLoading = true;
             setTimeout(() => {
-                const doc = new JsPDF();
                 const startDate = moment(this.startDate).format("DD MMMM YYYY");
                 const endDate = moment(this.endDate).format("DD MMMM YYYY");
                 // let startText = 112;
                 const el = document.createElement("div");
-                const pageWidth = "600px";
-                el.style.fontSize = "4px";
+                const pageWidth = "100%";
+                el.style.pageBreakBefore = "always";
+                el.style.fontSize = "12px";
                 el.style.width = pageWidth;
                 el.style.padding = "8px";
                 const headerEl = document.createElement("div");
-                headerEl.style.marginBottom = "4px";
+                headerEl.style.marginBottom = "12px";
                 headerEl.innerHTML = "Tanggal : " + startDate + " s/d " + endDate;
                 el.append(headerEl);
 
                 const legendEl = document.createElement("div");
                 legendEl.style.width = "600px";
                 legendEl.style.height = "20px";
-                legendEl.innerHTML += "<div style='display:inline-block;'><div style='background:#00CDB4;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Positif</div></div>"
-                legendEl.innerHTML += "<div style='display:inline-block;margin-left:8px'><div style='background:#FF5630;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Negatif</div></div>"
-                legendEl.innerHTML += "<div style='display:inline-block;margin-left:8px'><div style='background:#FFA600;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Netral</div></div>"
-                legendEl.innerHTML += "<div style='display:inline-block;margin-left:8px'><div style='background:#A0AABF;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:4px'>Total Sentimen</div></div>"
+                legendEl.innerHTML += "<div style='display:inline-block;'><div style='background:#00CDB4;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:12px'>Positif</div></div>"
+                legendEl.innerHTML += "<div style='display:inline-block;margin-left:16px'><div style='background:#FF5630;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:12px'>Negatif</div></div>"
+                legendEl.innerHTML += "<div style='display:inline-block;margin-left:16px'><div style='background:#FFA600;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:12px'>Netral</div></div>"
+                legendEl.innerHTML += "<div style='display:inline-block;margin-left:16px'><div style='background:#A0AABF;width:12px;height:4px;display:inline-block;'></div> <div style='display:inline-block;height:4px;font-size:12px'>Total Sentimen</div></div>"
                 el.append(legendEl)
-                el.innerHTML += "<img src='" + this.chartImage + "' width='190' height='85' />"
+                el.innerHTML += "<img src='" + this.chartImage + "' width='720' height='300' />"
                 const analysisEl = document.createElement("div");
-                const title = "<div style='font-size:10px;font-weight:500'>Analisa</div>";
+                const title = "<div style='font-size:20px;font-weight:500'>Analisa</div>";
                 analysisEl.style.width = pageWidth;
-                analysisEl.style.marginTop = "4px";
                 // analysisEl.style.wordWrap = "break-word";
-                analysisEl.style.maxWidth = "192px";
-                // analysisEl.style.wordBreak = "break-all";
+                analysisEl.style.maxWidth = "718px";
+                analysisEl.style.margin = "16px";
+                analysisEl.style.pageBreakBefore = "always";
+                analysisEl.setAttribute("id", "page2el");
                 analysisEl.innerHTML = title;
                 this.analysis.forEach(({ description }) => {
-                    analysisEl.innerHTML += "<div style='word-break:break-all'>" + description + "</div>";
+                    analysisEl.innerHTML += "<div style=''>" + description + "</div>";
                 });
                 analysisEl.querySelectorAll("p").forEach(value => {
-                    value.style.fontSize="4px";
+                    value.style.fontSize="12px";
+                    value.style.wordWrap="break-word";
                     value.style.margin="0px";
                     value.style.padding="0px";
                     value.style.marginTop="2px";
                     value.style.marginBottom="2px";
                 });
                 el.append(analysisEl);
-                doc.html(el, {
-                    callback(e) {
-                        this.isLoading = false;
-                        e.save("doc.pdf")
+                htmltopdf(el).set({
+                    pagebreak: { 
+                        mode: ['avoid-all'],
+                        before: '#page2el'
                     }
-                });
+                });;
                 this.isLoading = false;
             }, 500);
             // this.analysis.forEach(value => {
